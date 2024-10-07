@@ -5,6 +5,12 @@ from bs4 import BeautifulSoup as BS
 
 
 def find_schedule_session_url(num_group: str) -> str:
+    """
+    Finds the URL for the session schedule based on the group number.
+
+    :param num_group: The group number to search for.
+    :return: The URL for the session schedule for the specified group.
+    """
     with open(f"AllGroupShedule/AllGroup_course_{num_group[1]}.csv",
               "r", encoding="utf-8") as file:
         reader = csv.reader(file, delimiter=";")
@@ -15,6 +21,12 @@ def find_schedule_session_url(num_group: str) -> str:
 
 
 def pars_schedule_session(num_group: str) -> str:
+    """
+    Parses the session schedule for a given group number.
+
+    :param num_group: The group number for which to retrieve the session schedule.
+    :return: A formatted string containing the session schedule for the specified group.
+    """
     url = find_schedule_session_url(num_group)
     response = requests.get(url)
     list_session = []

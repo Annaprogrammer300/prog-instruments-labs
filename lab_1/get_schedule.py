@@ -6,6 +6,14 @@ from bs4 import BeautifulSoup as BS
 
 
 def pars_all_group():
+    """
+    Parses all group schedules from the university website and saves them
+    in CSV files organized by course number.
+
+    Creates a directory named 'AllGroupShedule' if it does not exist.
+    Retrieves group URLs and names for courses 1 to 5 and stores them in
+    respective CSV files.
+    """
     os.makedirs('AllGroupShedule', exist_ok=True)
     for num_course in range(1, 6):
         url = f'https://ssau.ru/rasp/faculty/492430598?course={num_course}'
@@ -29,18 +37,33 @@ def pars_all_group():
                 ])
 
 
-def find_schedule_url(num_group: str, selectedWeek: str, selectedWeekday: str) -> str:
+def find_schedule_url(num_group: str, selected_week: str, selected_weekday: str) -> str:
+    """
+    Finds the schedule URL for a specific group, week, and weekday.
+
+    :param num_group: The group number to search for.
+    :param selected_week: The week number for which to find the schedule.
+    :param selected_weekday: The day of the week for which to find the schedule.
+    :return: The constructed URL for the schedule.
+    """
+
     with open(f"AllGroupShedule/AllGroup_course_{num_group[1]}.csv",
               "r", encoding="utf-8") as file:
         reader = csv.reader(file, delimiter=";")
         for row in reader:
             if row[1] == num_group:
                 result = (f"{row[0]}&selectedWeek="
-                          f"{selectedWeek}&selectedWeekday={selectedWeekday}")
+                          f"{selected_week}&selectedWeekday={selected_weekday}")
                 return result
 
 
 def pars_shedule(url: str) -> str:
+    """
+    Parses the schedule from the given URL.
+
+    :param url: The URL of the schedule to parse.
+    :return: A formatted string containing the schedule information.
+    """
     result = ""
     current_date = ""
     list_lessons = []

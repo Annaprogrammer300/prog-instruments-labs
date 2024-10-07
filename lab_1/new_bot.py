@@ -13,6 +13,10 @@ bot = telebot.TeleBot(config.TOKEN)
 
 @bot.message_handler(commands=['start'])
 def welcome(message):
+    """
+    Handles the /start command.
+    Sends a welcome message and information about the bot.
+    """
     list_info = []
     with open("data/info.txt", encoding='utf-8') as file:
         list_info = file.readlines()
@@ -40,6 +44,10 @@ def welcome(message):
 
 @bot.message_handler(commands=['change'])
 def change_option(message):
+    """
+    Handles the /change command.
+    Allows the user to change settings or access features.
+    """
     write_in_file = True
     with open("users.csv", "r", encoding="utf-8") as file:
         reader_der = csv.reader(file, delimiter=";")
@@ -80,6 +88,10 @@ def change_option(message):
 
 @bot.message_handler(content_types=['text'])
 def expanded_change(message):
+    """
+    Handles text messages from users.
+    Executes corresponding actions based on the message text.
+    """
     if message.chat.type == 'private':
         if message.text == 'Узнать задание по лабе':
             sticker_really = open('data/stickers/REALLY.webp', 'rb')
@@ -176,6 +188,10 @@ def expanded_change(message):
 
 
 def error(message):
+    """
+    Handles errors that occur during the bot's operation.
+    Sends an error message and suggests starting over.
+    """
     sticker_idk = open('data/stickers/IDK.webp', 'rb')
     bot.send_sticker(message.chat.id, sticker_idk)
     markup = types.ReplyKeyboardRemove()
@@ -190,10 +206,19 @@ def error(message):
 
 
 def open_file(way_to_file):
+    """
+    Checks if a file exists at the specified path.
+
+    :param way_to_file: Path to the file.
+    :return: True if the file exists, otherwise False.
+    """
     return os.path.exists(way_to_file)
 
 
 def important_links(message):
+    """
+    Sends important links to the user.
+    """
     markup = types.ReplyKeyboardRemove()
     bot.send_message(message.chat.id, "ИИК Приём - https://vk.com/iik.ssau.priem\nСтуд."
                                       " совет ИИК - https://vk.com/sciic\nРасписание ИИК "
@@ -205,7 +230,12 @@ def important_links(message):
     change_option(message)
 
 
-def send_shedule(message):
+def send_schedule(message):
+    """
+    Sends the schedule to the user based on the provided data.
+
+    :param message: Message from the user containing data for schedule retrieval.
+    """
     if message.text == 'Вернуться в меню':
         change_option(message)
     else:
@@ -240,7 +270,12 @@ def send_shedule(message):
             error(message)
 
 
-def send_session_shedule(message):
+def send_session_schedule(message):
+    """
+    Sends the session schedule to the user based on the group.
+
+    :param message: Message from the user requesting the session schedule.
+    """
     if message.text == "Вернуться в меню":
         os.remove(f"data/work_with_group_id/{message.chat.id}.txt")
         change_option(message)
@@ -266,6 +301,11 @@ def send_session_shedule(message):
 
 
 def send_news(message):
+    """
+    Sends news to all users.
+
+    :param message: Message from the user initiating the news sending.
+    """
     with open('data/info.txt', 'r', encoding="utf-8") as file:
         news = file.read()
     with open('users.csv', 'r', encoding="utf-8") as file:
@@ -279,6 +319,11 @@ def send_news(message):
 
 
 def change_lab_task(message):
+    """
+    Changes the lab assignment based on the user's selection.
+
+    :param message: Message from the user with the selected assignment.
+    """
     list_items = []
     list_files = []
     if message.text == 'Вернуться в меню':
@@ -303,6 +348,11 @@ def change_lab_task(message):
 
 
 def change_book(message):
+    """
+    Changes the book based on the user's selection.
+
+    :param message: Message from the user with the selected book.
+    """
     list_items = []
     list_files = []
     markup = types.ReplyKeyboardRemove()
@@ -329,6 +379,11 @@ def change_book(message):
 
 
 def change_secret(message):
+    """
+    Allows the user to choose a secret document.
+
+    :param message: Message from the user requesting a secret document.
+    """
     list_items = []
     for doc in os.listdir("secret"):
         list_items.append(doc)
@@ -344,6 +399,11 @@ def change_secret(message):
 
 
 def send_secret(message):
+    """
+    Sends the selected secret document to the user.
+
+    :param message: Message from the user with the selected secret document.
+    """
     if not message.text == 'Вернуться в меню':
         bot.send_message(message.chat.id, "Отправляю!")
         file = open(f"secret/{message.text}", "rb")
@@ -363,6 +423,11 @@ def send_secret(message):
 
 
 def send_pdf(message):
+    """
+    Sends a PDF document to the user based on their selection.
+
+    :param message: Message from the user requesting a PDF document.
+    """
     if message.text == 'Вернуться в меню':
         change_option(message)
     else:
