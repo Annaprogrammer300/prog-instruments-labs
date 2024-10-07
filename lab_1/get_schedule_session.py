@@ -19,17 +19,17 @@ def pars_schedule_session(num_group: str) -> str:
     response = requests.get(url)
     list_session = []
     soup = BS(response.content, "html.parser")
-    for item in soup.find_all(class_="daily-session"):
-        if not item.find(class_="caption-text "
+    for session_item in soup.find_all(class_="daily-session"):
+        if not session_item.find(class_="caption-text "
                                 "meeting__type").contents[0] == " Консультация":
             list_session.append((
-                item.find(class_="h3-text").contents,
-                item.find(class_="caption-text meeting__type").contents,
-                item.find(class_="h3-text meeting__discipline").contents,
-                item.find(class_="h2-text meeting__time").contents
+                session_item.find(class_="h3-text").contents,
+                session_item.find(class_="caption-text meeting__type").contents,
+                session_item.find(class_="h3-text meeting__discipline").contents,
+                session_item.find(class_="h2-text meeting__time").contents
             ))
     result = f"Расписание сессии для группы {num_group}:\n"
-    for item in list_session:
-        result += (f"---{item[1][0]}---\n\nДата и время: {item[0][0]} - "
-                   f"{item[3][0]}\nПредмет: {item[2][0]}\n\n")
+    for session in list_session:
+        result += (f"---{session[1][0]}---\n\nДата и время: {session[0][0]} - "
+                   f"{session[3][0]}\nПредмет: {session[2][0]}\n\n")
     return result

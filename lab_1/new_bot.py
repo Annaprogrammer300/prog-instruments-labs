@@ -19,8 +19,8 @@ def welcome(message):
 
     markup = types.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=True)
-    item1 = types.KeyboardButton("/change")
-    markup.add(item1)
+    button_change = types.KeyboardButton("/change")
+    markup.add(button_change)
 
     sti = open('data/stickers/HI.webp', 'rb')
     bot.send_sticker(message.chat.id, sti)
@@ -42,8 +42,8 @@ def welcome(message):
 def change_option(message):
     write_in_file = True
     with open("users.csv", "r", encoding="utf-8") as file:
-        readerder = csv.reader(file, delimiter=";")
-        for row in readerder:
+        reader_der = csv.reader(file, delimiter=";")
+        for row in reader_der:
             if row[1] == str(message.from_user.id):
                 write_in_file = False
     if write_in_file:
@@ -60,16 +60,18 @@ def change_option(message):
 
     markup = types.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=True)
-    item1 = types.KeyboardButton("Узнать задание по лабе")
-    item2 = types.KeyboardButton("Достать учебник")
-    item3 = types.KeyboardButton("Получить секретик")
-    item4 = types.KeyboardButton("Узнать расписание")
-    item5 = types.KeyboardButton("Важные ссылки")
+    button_lab_assignment = types.KeyboardButton("Узнать задание по лабе")
+    button_get_book = types.KeyboardButton("Достать учебник")
+    button_get_secret = types.KeyboardButton("Получить секретик")
+    button_get_schedule = types.KeyboardButton("Узнать расписание")
+    button_useful_links = types.KeyboardButton("Важные ссылки")
     if str(message.from_user.id) == '765103434':
-        item6 = types.KeyboardButton("News")
-        markup.add(item1, item2, item3, item4, item5, item6)
+        button_news = types.KeyboardButton("News")
+        markup.add(button_lab_assignment, button_get_book, button_get_secret,
+                   button_get_schedule, button_useful_links, button_news)
     else:
-        markup.add(item1, item2, item3, item4, item5)
+        markup.add(button_lab_assignment, button_get_book, button_get_secret,
+                   button_get_schedule, button_useful_links)
 
     received_message_text = bot.send_message(
         message.chat.id, "Погнали!", reply_markup=markup)
@@ -80,8 +82,8 @@ def change_option(message):
 def expanded_change(message):
     if message.chat.type == 'private':
         if message.text == 'Узнать задание по лабе':
-            sti1 = open('data/stickers/REALLY.webp', 'rb')
-            bot.send_sticker(message.chat.id, sti1)
+            sticker_really = open('data/stickers/REALLY.webp', 'rb')
+            bot.send_sticker(message.chat.id, sticker_really)
             markup = types.ReplyKeyboardRemove()
             list_items = []
             list_files = os.listdir("data/labs_book/labs/")
@@ -100,8 +102,8 @@ def expanded_change(message):
                 received_message_text, change_lab_task)
 
         elif message.text == 'Достать учебник':
-            sti2 = open('data/stickers/YES.webp', 'rb')
-            bot.send_sticker(message.chat.id, sti2)
+            sticker_yes = open('data/stickers/YES.webp', 'rb')
+            bot.send_sticker(message.chat.id, sticker_yes)
             markup = types.ReplyKeyboardRemove()
             bot.send_message(message.chat.id, 'Окей', reply_markup=markup)
 
@@ -124,9 +126,9 @@ def expanded_change(message):
 
         elif message.text == 'Получить секретик':
             file = open("allowed_users.csv", "r", encoding="utf-8")
-            readerder = csv.reader(file, delimiter=";")
+            reader_der = csv.reader(file, delimiter=";")
             locked = True
-            for row in readerder:
+            for row in reader_der:
                 if str(row[0]) == str(message.from_user.id):
                     locked = False
             if locked == False:
@@ -137,21 +139,21 @@ def expanded_change(message):
             else:
                 markup = types.ReplyKeyboardMarkup(
                     resize_keyboard=True, one_time_keyboard=True)
-                item1 = types.KeyboardButton("/change")
-                markup.add(item1)
+                button_change = types.KeyboardButton("/change")
+                markup.add(button_change)
                 received_message = bot.send_message(
                     message.chat.id, "Блинб, у тебя нет доступа(\nНажми"
                                      " \"/change\" чтобы продолжить", reply_markup=markup)
                 bot.register_next_step_handler(received_message, change_option)
 
         elif message.text == 'Узнать расписание':
-            sti1 = open('data/stickers/REALLY.webp', 'rb')
-            bot.send_sticker(message.chat.id, sti1)
+            sticker_really = open('data/stickers/REALLY.webp', 'rb')
+            bot.send_sticker(message.chat.id, sticker_really)
             markup = types.ReplyKeyboardRemove()
             markup = types.ReplyKeyboardMarkup(
                 resize_keyboard=True, one_time_keyboard=True)
-            item = types.KeyboardButton("Вернуться в меню")
-            markup.add(item)
+            button_return_to_menu = types.KeyboardButton("Вернуться в меню")
+            markup.add(button_return_to_menu)
             received_message = bot.send_message(
                 message.chat.id, "Введи мне номер своей группы, номер "
                                  "недели который тебе нужен и номер дня недели\n\n!!! "
@@ -174,13 +176,13 @@ def expanded_change(message):
 
 
 def error(message):
-    sti3 = open('data/stickers/IDK.webp', 'rb')
-    bot.send_sticker(message.chat.id, sti3)
+    sticker_idk = open('data/stickers/IDK.webp', 'rb')
+    bot.send_sticker(message.chat.id, sticker_idk)
     markup = types.ReplyKeyboardRemove()
     markup = types.ReplyKeyboardMarkup(
         resize_keyboard=True, one_time_keyboard=True)
-    item1 = types.KeyboardButton("/start")
-    markup.add(item1)
+    button_start = types.KeyboardButton("/start")
+    markup.add(button_start)
     received_message_text = bot.send_message(
         message.chat.id, 'Блинб, я не знаю, что ответить(((\nНажми \"/start\" '
                          'чтобы продолжить', reply_markup=markup)
@@ -211,10 +213,10 @@ def send_shedule(message):
             gs.pars_all_group()
         try:
             num_group = message.text.split()[0]
-            selectedWeek = message.text.split()[1]
-            selectedWeekday = message.text.split()[2]
+            selected_week = message.text.split()[1]
+            selected_weekday = message.text.split()[2]
             url_schedule = gs.find_schedule_url(
-                num_group, selectedWeek, selectedWeekday)
+                num_group, selected_week, selected_weekday)
             schedule = gs.pars_shedule(url_schedule)
             bot.send_message(
                 message.chat.id, schedule + f"\nURL: {url_schedule}")
@@ -227,9 +229,9 @@ def send_shedule(message):
             markup = types.ReplyKeyboardRemove()
             markup = types.ReplyKeyboardMarkup(
                 resize_keyboard=True, one_time_keyboard=True)
-            item1 = types.KeyboardButton("Узнать расписание сессии")
-            item2 = types.KeyboardButton("Вернуться в меню")
-            markup.add(item1, item2)
+            button_get_schedule = types.KeyboardButton("Узнать расписание сессии")
+            button_return_to_menu = types.KeyboardButton("Вернуться в меню")
+            markup.add(button_get_schedule, button_return_to_menu)
             received_message = bot.send_message(
                 message.chat.id, "Хочешь узнать что-то ещё?", reply_markup=markup)
             bot.register_next_step_handler(
@@ -267,8 +269,8 @@ def send_news(message):
     with open('data/info.txt', 'r', encoding="utf-8") as file:
         news = file.read()
     with open('users.csv', 'r', encoding="utf-8") as file:
-        readerder = csv.reader(file, delimiter=";")
-        for row in readerder:
+        reader_der = csv.reader(file, delimiter=";")
+        for row in reader_der:
             try:
                 bot.send_message(row[2], news)
             except:
@@ -291,8 +293,8 @@ def change_lab_task(message):
                 resize_keyboard=True, one_time_keyboard=True)
             for item in list_items:
                 markup.add(item)
-            item = types.KeyboardButton("Вернуться в меню")
-            markup.add(item)
+            button_return_to_menu = types.KeyboardButton("Вернуться в меню")
+            markup.add(button_return_to_menu)
             received_message = bot.send_message(
                 message.chat.id, "Номер?", reply_markup=markup)
             bot.register_next_step_handler(received_message, send_pdf)
@@ -317,8 +319,8 @@ def change_book(message):
                 resize_keyboard=True, one_time_keyboard=True)
             for item in list_items:
                 markup.add(item)
-            item = types.KeyboardButton("Вернуться в меню")
-            markup.add(item)
+            button_return_to_menu = types.KeyboardButton("Вернуться в меню")
+            markup.add(button_return_to_menu)
             received_message = bot.send_message(
                 message.chat.id, "Автор?", reply_markup=markup)
             bot.register_next_step_handler(received_message, send_pdf)
@@ -334,8 +336,8 @@ def change_secret(message):
         resize_keyboard=True, one_time_keyboard=True)
     for item in list_items:
         markup.add(item)
-    item = types.KeyboardButton("Вернуться в меню")
-    markup.add(item)
+    button_return_to_menu = types.KeyboardButton("Вернуться в меню")
+    markup.add(button_return_to_menu)
     received_message = bot.send_message(
         message.chat.id, "Какой секретик нужен?", reply_markup=markup)
     bot.register_next_step_handler(received_message, send_secret)
@@ -351,8 +353,8 @@ def send_secret(message):
             f"{message.from_user.first_name} -> ID: {message.from_user.id}")
         markup = types.ReplyKeyboardMarkup(
             resize_keyboard=True, one_time_keyboard=True)
-        item1 = types.KeyboardButton("/change")
-        markup.add(item1)
+        button_change = types.KeyboardButton("/change")
+        markup.add(button_change)
         received_message = bot.send_message(
             message.chat.id, "Нажми \"/change\" чтобы продолжить", reply_markup=markup)
         bot.register_next_step_handler(received_message, change_option)
@@ -385,12 +387,12 @@ def send_pdf(message):
         print(
             f"Отправлен {message.text} -> Пользователь "
             f"{message.from_user.first_name} -> ID: {message.from_user.id}")
-        sti = open('data/stickers/NYA.webp', 'rb')
-        bot.send_sticker(message.chat.id, sti)
+        sticker_nya = open('data/stickers/NYA.webp', 'rb')
+        bot.send_sticker(message.chat.id, sticker_nya)
         markup = types.ReplyKeyboardMarkup(
             resize_keyboard=True, one_time_keyboard=True)
-        item1 = types.KeyboardButton("/change")
-        markup.add(item1)
+        button_change = types.KeyboardButton("/change")
+        markup.add(button_change)
         received_message = bot.send_message(
             message.chat.id, "Нажми \"/change\" чтобы продолжить", reply_markup=markup)
         bot.register_next_step_handler(received_message, change_option)
