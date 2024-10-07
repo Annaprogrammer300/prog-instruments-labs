@@ -1,7 +1,8 @@
-import requests
-from bs4 import BeautifulSoup as BS
 import csv
 import os
+
+import requests
+from bs4 import BeautifulSoup as BS
 
 
 def pars_all_group():

@@ -1,6 +1,7 @@
+import csv
+
 import requests
 from bs4 import BeautifulSoup as BS
-import csv
 
 
 def find_schedule_session_url(num_group: str) -> str:
