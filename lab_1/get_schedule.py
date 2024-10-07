@@ -13,13 +13,15 @@ def pars_all_group():
         soup = BS(response.content, 'html.parser')
         list_url = []
         list_group = []
-        for item in soup.find_all('a', class_="btn-text group-catalog__group"):
+        for item in soup.find_all('a',
+                                  class_="btn-text group-catalog__group"):
             list_url.append(item.get('href'))
             span_item = item.find('span')
             list_group.append(span_item.contents[0])
 
         for i in range(len(list_url)):
-            with open(f"AllGroupShedule/AllGroup_course_{num_course}.csv", "a", newline="", encoding="utf-8") as file:
+            with open(f"AllGroupShedule/AllGroup_course_{num_course}.csv",
+                      "a", newline="", encoding="utf-8") as file:
                 printer = csv.writer(file, delimiter=";")
                 printer.writerow([
                     "https://ssau.ru" + str(list_url[i]),
@@ -28,11 +30,13 @@ def pars_all_group():
 
 
 def find_schedule_url(num_group: str, selectedWeek: str, selectedWeekday: str) -> str:
-    with open(f"AllGroupShedule/AllGroup_course_{num_group[1]}.csv", "r", encoding="utf-8") as file:
+    with open(f"AllGroupShedule/AllGroup_course_{num_group[1]}.csv",
+              "r", encoding="utf-8") as file:
         reader = csv.reader(file, delimiter=";")
         for row in reader:
             if row[1] == num_group:
-                result = f"{row[0]}&selectedWeek={selectedWeek}&selectedWeekday={selectedWeekday}"
+                result = (f"{row[0]}&selectedWeek="
+                          f"{selectedWeek}&selectedWeekday={selectedWeekday}")
                 return result
 
 
@@ -77,5 +81,6 @@ def pars_shedule(url: str) -> str:
             list_lessons.append("None")
             list_lessons_type.append("(None)")
     for i in range(len(list_lessons)):
-        result += f"{list_lessons_time[i]}\t{list_lessons[i]}\t{list_lessons_type[i]}\n"
+        result += (f"{list_lessons_time[i]}\t{list_lessons[i]}"
+                   f"\t{list_lessons_type[i]}\n")
     return result

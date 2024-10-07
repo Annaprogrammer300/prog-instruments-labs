@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup as BS
 
 
 def find_schedule_session_url(num_group: str) -> str:
-    with open(f"AllGroupShedule/AllGroup_course_{num_group[1]}.csv", "r", encoding="utf-8") as file:
+    with open(f"AllGroupShedule/AllGroup_course_{num_group[1]}.csv",
+              "r", encoding="utf-8") as file:
         reader = csv.reader(file, delimiter=";")
         for row in reader:
             if row[1] == num_group:
@@ -19,7 +20,8 @@ def pars_schedule_session(num_group: str) -> str:
     list_session = []
     soup = BS(response.content, "html.parser")
     for item in soup.find_all(class_="daily-session"):
-        if not item.find(class_="caption-text meeting__type").contents[0] == " Консультация":
+        if not item.find(class_="caption-text "
+                                "meeting__type").contents[0] == " Консультация":
             list_session.append((
                 item.find(class_="h3-text").contents,
                 item.find(class_="caption-text meeting__type").contents,
@@ -28,5 +30,6 @@ def pars_schedule_session(num_group: str) -> str:
             ))
     result = f"Расписание сессии для группы {num_group}:\n"
     for item in list_session:
-        result += f"---{item[1][0]}---\n\nДата и время: {item[0][0]} - {item[3][0]}\nПредмет: {item[2][0]}\n\n"
+        result += (f"---{item[1][0]}---\n\nДата и время: {item[0][0]} - "
+                   f"{item[3][0]}\nПредмет: {item[2][0]}\n\n")
     return result
