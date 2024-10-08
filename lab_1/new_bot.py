@@ -463,7 +463,6 @@ def send_pdf(message):
         bot.register_next_step_handler(received_message, change_option)
 
 
-# RUN
 while True:
     try:
         print("Eddie Start!")
