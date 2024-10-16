@@ -2,10 +2,10 @@ import csv
 import os.path
 import time
 
-import telebot
 import config
 import get_schedule as gs
 import get_schedule_session as gs_session
+import telebot
 from telebot import types
 
 bot = telebot.TeleBot(config.TOKEN)
