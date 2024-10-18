@@ -24,19 +24,24 @@ def pars_schedule_session(num_group: str) -> str:
     """
     Parses the session schedule for a given group number.
 
-    :param num_group: The group number for which to retrieve the session schedule.
-    :return: A formatted string containing the session schedule for the specified group.
+    :param num_group: The group number for which to
+                    retrieve the session schedule.
+    :return: A formatted string containing the session
+            schedule for the specified group.
     """
     url = find_schedule_session_url(num_group)
     response = requests.get(url)
     list_session = []
     soup = BS(response.content, 'html.parser')
     for session_item in soup.find_all(class_='daily-session'):
-        if not session_item.find(class_='caption-text meeting__type').contents[0] == ' Консультация':
+        if not session_item.find(class_='caption-text '
+                                        'meeting__type').contents[0] == ' Консультация':
             list_session.append((
                 session_item.find(class_='h3-text').contents,
-                session_item.find(class_='caption-text meeting__type').contents,
-                session_item.find(class_='h3-text meeting__discipline').contents,
+                session_item.find(class_='caption-text '
+                                         'meeting__type').contents,
+                session_item.find(class_='h3-text '
+                                         'meeting__discipline').contents,
                 session_item.find(class_='h2-text meeting__time').contents
             ))
     result = f'Расписание сессии для группы {num_group}:\n'
